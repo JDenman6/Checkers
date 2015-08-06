@@ -60,6 +60,10 @@ class Board
     self[pos] = Piece.new(pos, color, self)
   end
 
+  def clear_space(pos)
+    self[pos] = nil
+  end
+
   def on_board?(pos)
     pos.all? { |coordinate| (0...GRID_SIZE).include?(coordinate) }
   end

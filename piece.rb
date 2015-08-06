@@ -44,8 +44,10 @@ class Piece
   end
 
   def jump_move(to_pos)
+    from, to = self.pos, to_pos
     if grid.on_board?(to_pos)
-      grid.move!(self.pos, to_pos)
+      grid.move!(from, to)
+      clear_jumped_space(from, to)
     else
       raise "ERROR! Can't jump there."
     end
@@ -53,6 +55,16 @@ class Piece
 
   def deltas
     (self.color == :r) ? RED_DELTAS : BLACK_DELTAS
+  end
+
+  def clear_jumped_space(from_pos, to_pos)
+    start_x, start_y = from_pos
+    end_x, end_y = to_pos
+
+    jumped_x = ((start_x + end_x) / 2)
+    jumped_y = ((start_y + end_y) / 2)
+
+    grid.clear_space([jumped_x, jumped_y])
   end
 
   def slide_moves
