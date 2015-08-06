@@ -36,20 +36,21 @@ class Board
     if piece.moves.include?(to_pos) && on_board?(to_pos)
       slide_move(from_pos, to_pos)
     else
-      raise "ERROR!"
+      raise "ERROR! in move"
     end
 
     nil
   end
 
   def slide_move(from_pos, to_pos)
+    if self[to_pos].nil?
     self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
     self[to_pos].pos = to_pos
+    end
+
+  nil
   end
 
-  def slide_available?(dir)
-    true
-  end
 
   def jump_available?(dir)
     true
