@@ -10,8 +10,19 @@ class Board
     grid.each do |row|
      row.each { |square| print square }
      print "\n"
-   end
+    end
   end
+
+  def [](pos)
+    x, y = pos
+    board[x][y]
+  end
+
+  def []=(pos, piece)
+    x, y = pos
+    self.board[x][y] = piece
+  end
+  
 end
 
 
