@@ -43,6 +43,7 @@ if __FILE__ == $PROGRAM_NAME
 
   board.add_piece([0,2], :r)
   # board[[0,0]] = Piece.new([2,3], :black)
+  board.add_piece([7,5], :b)
   board.render
 
 
