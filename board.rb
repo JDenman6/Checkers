@@ -32,9 +32,17 @@ class Board
   end
 
   def move(from_pos, to_pos)
+    if self[from_pos].nil?
+      raise "ERROR! Can't move nil piece."
+    else
     piece = self[from_pos]
-    if piece.slide_moves.include?(to_pos) && on_board?(to_pos)
-      slide_move(from_pos, to_pos)
+    end
+    if on_board?(to_pos)
+      if piece.slide_moves.include?(to_pos)
+        slide_move(from_pos, to_pos)
+      elsif piece.jump_moves.include?(to_pos)
+        jump_move(from_pos, to_pos)
+      end
     else
       raise "ERROR! in move"
     end
@@ -52,7 +60,7 @@ class Board
   end
 
   def add_piece(pos, color)
-    self[pos] = Piece.new(pos, color)
+    self[pos] = Piece.new(pos, color, self)
   end
 
   def on_board?(pos)
@@ -65,8 +73,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
 
-  board.add_piece([0,2], :r)
-  board.add_piece([7,5], :b)
+  board.add_piece([0,2], :r, board)
+  board.add_piece([7,5], :b, board)
   board.render
   p "~~~~~~"
 
