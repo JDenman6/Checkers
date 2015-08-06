@@ -18,7 +18,7 @@ class Piece
 
   def move(to_pos)
 
-    if on_board?(to_pos)
+    if grid.on_board?(to_pos)
       if slide_moves.include?(to_pos)
         slide_move(to_pos)
       elsif jump_moves.include?(to_pos)
@@ -34,8 +34,8 @@ class Piece
   end
 
   def slide_move(to_pos)
-    if board[to_pos].nil?
-      board.move!(self.pos,to_pos)
+    if grid[to_pos].nil?
+      grid.move!(self.pos,to_pos)
     else
       raise "ERROR! in slide move"
     end
@@ -81,6 +81,8 @@ class Piece
     possible_jumps
   end
 
+
+
 end
 
 
@@ -92,6 +94,8 @@ if __FILE__ == $PROGRAM_NAME
     board.add_piece([1,3], :b)
     board.render
 
-    p board[[2,2]].slide_moves
+    board[[2,2]].move([1,1])
+
+    board.render
 
 end

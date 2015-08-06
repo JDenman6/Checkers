@@ -40,6 +40,11 @@ class Board
     self.grid[x][y] = piece
   end
 
+  def move!(from_pos, to_pos)
+    self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
+    self[to_pos].pos = to_pos
+  end
+
   # def move(from_pos, to_pos)
   #   if self[from_pos].nil?
   #     raise "ERROR! No piece there."
