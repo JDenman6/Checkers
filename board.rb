@@ -15,14 +15,14 @@ class Board
 
   def [](pos)
     x, y = pos
-    board[x][y]
+    grid[x][y]
   end
 
   def []=(pos, piece)
     x, y = pos
-    self.board[x][y] = piece
+    self.grid[x][y] = piece
   end
-  
+
 end
 
 
