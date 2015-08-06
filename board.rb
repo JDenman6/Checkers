@@ -42,6 +42,8 @@ class Board
         slide_move(from_pos, to_pos)
       elsif piece.jump_moves.include?(to_pos)
         jump_move(from_pos, to_pos)
+      else
+        raise "ERROR! can't slide there."
       end
     else
       raise "ERROR! in move"
@@ -52,12 +54,33 @@ class Board
 
   def slide_move(from_pos, to_pos)
     if self[to_pos].nil?
-    self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
-    self[to_pos].pos = to_pos
+      self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
+      self[to_pos].pos = to_pos
+    else
+      Raise "ERROR! in slide move"
     end
 
-  nil
+    nil
   end
+
+  def jump_move(from_pos, to_pos)
+    if self[to_pos].nil?
+      self[jumped_space(from_pos, to_pos)] = nil
+      self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
+      self[to_pos].pos = to_pos
+    end
+  end
+
+  def jumped_space(from_pos, to_pos)
+    start_x, start_y = from_pos
+    end_x, end_y = to_pos
+
+    jumped_x = (start_x + end_x) / 2
+    jumped_y = (start_y + end_y) / 2
+
+    [jumped_x, jumped_y]
+  end
+
 
   def add_piece(pos, color)
     self[pos] = Piece.new(pos, color, self)
@@ -71,15 +94,15 @@ end
 
 
 if __FILE__ == $PROGRAM_NAME
-  board = Board.new
+board = Board.new
 
-  board.add_piece([0,2], :r, board)
-  board.add_piece([7,5], :b, board)
-  board.render
+board.add_piece([0,2], :r)
+board.add_piece([1,3], :b)
+board.render
   p "~~~~~~"
 
 
-  board.move([7,5], [6,4])
+  board.move([0,2], [2,4])
   board.render
 
 
