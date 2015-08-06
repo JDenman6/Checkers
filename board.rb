@@ -80,10 +80,11 @@ board.add_piece([2,2], :b)
 board.add_piece([4,6], :r)
 board.render
 
-board[[4,6]].perform_moves!([[3,5]])
+p board[[4,6]].valid_move_seq?([[3,5]])
+board[[4,6]].move([3,5])
 board.render
 
-board[[3,5]].perform_moves!([[1,3], [3,1], [5,3]])
+p board[[3,5]].valid_move_seq?([[1,3], [3,1], [5,3]])
 board.render
 
 

@@ -31,14 +31,29 @@ class Piece
     nil
   end
 
+  def valid_move_seq?(moves)
+    start_pos = pos
+    test_grid = self.grid.dup
+    begin
+      test_grid[start_pos].perform_moves!(moves)
+    rescue
+      return false
+    end
+
+    true
+  end
+
   def perform_moves!(moves)
     if moves.size == 1
       move(moves.first)
     else
       queue = moves
       until queue.empty?
-
-        move_jump(queue.shift)
+        if jump_moves.include?(queue.first)
+          move_jump(queue.shift)
+        else
+          raise ArgumentError "ERROR! invalid jump"
+        end
       end
     end
 
