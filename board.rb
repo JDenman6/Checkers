@@ -51,11 +51,6 @@ class Board
   nil
   end
 
-
-  def jump_available?(dir)
-    true
-  end
-
   def add_piece(pos, color)
     self[pos] = Piece.new(pos, color)
   end

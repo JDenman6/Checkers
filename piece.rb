@@ -15,22 +15,26 @@ class Piece
     (color == :r) ? +1 : -1
   end
 
-  def left
-    row, col = self.pos
+  def left(pos)
+    row, col = pos
     row += side_forward(self.color)
     col += side_forward(self.color)
     pos = [row, col]
   end
 
-  def right
-    row, col = self.pos
+  def right(pos)
+    row, col = pos
     row += side_forward(self.color)
     col -= side_forward(self.color)
     pos = [row, col]
   end
 
   def slide_moves
-    [left , right]
+    [left(self.pos) , right(self.pos)]
+  end
+
+  def jump_moves
+
   end
 
 end
