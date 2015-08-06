@@ -5,12 +5,18 @@ class Board
   attr_accessor :grid
 
   def initialize
-    @grid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE, "[ ]") }
+    @grid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) }
   end
 
   def render
     grid.each do |row|
-     row.each { |square| print square }
+     row.each do |square|
+       if square.nil?
+         print "[ ]"
+       else
+         print "[#{square.to_s}]"
+       end
+     end
      print "\n"
     end
   end
@@ -35,8 +41,8 @@ end
 if __FILE__ == $PROGRAM_NAME
   board = Board.new
 
-  board.add_piece([0,2], :red)
-  board[[0,0]] = Piece.new([2,3], :black)
+  board.add_piece([0,2], :r)
+  # board[[0,0]] = Piece.new([2,3], :black)
   board.render
 
 
