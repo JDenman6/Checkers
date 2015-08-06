@@ -4,4 +4,5 @@ class Piece
     @color = color
     @pos = pos
   end
+  
 end
