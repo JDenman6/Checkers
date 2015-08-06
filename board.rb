@@ -31,26 +31,15 @@ class Board
     self.grid[x][y] = piece
   end
 
-  def move(from_pos, dir)
-    to_pos = set_to_pos(from_pos, dir)
-    if slide_available?(to_pos)
-      slide_move(from_pos, to_pos)
-    elsif jump_available?(to_pos)
-      jump_move(to_pos)
-    else
-      raise "You can't move there!"
-    end
-  end
-
-  def set_to_pos(from_pos, dir)
+  def move(from_pos, to_pos)
     piece = self[from_pos]
-    if dir == :left
-      to_pos = piece.left
-    elsif dir == :right
-      to_pos = piece.right
+    if piece.moves.include?(to_pos) && on_board?(to_pos)
+      slide_move(from_pos, to_pos)
+    else
+      raise "ERROR!"
     end
 
-    to_pos
+    nil
   end
 
   def slide_move(from_pos, to_pos)
@@ -70,6 +59,10 @@ class Board
     self[pos] = Piece.new(pos, color)
   end
 
+  def on_board?(pos)
+    pos.all? { |coordinate| (0...GRID_SIZE).include?(coordinate) }
+  end
+
 end
 
 
@@ -77,14 +70,12 @@ if __FILE__ == $PROGRAM_NAME
   board = Board.new
 
   board.add_piece([0,2], :r)
-  # board[[0,0]] = Piece.new([2,3], :black)
   board.add_piece([7,5], :b)
   board.render
   p "~~~~~~"
 
-  p board.set_to_pos([7,5], :left)
 
-   board.move([7,5], :left)
+  board.move([7,5], [6,4])
   board.render
 
 
