@@ -96,13 +96,13 @@ end
 if __FILE__ == $PROGRAM_NAME
 board = Board.new
 
-board.add_piece([0,2], :r)
-board.add_piece([1,3], :b)
+board.add_piece([2,4], :b)
+board.add_piece([3,5], :r)
 board.render
   p "~~~~~~"
 
 
-  board.move([0,2], [2,4])
+  board.move([3,5], [1,3])
   board.render
 
 

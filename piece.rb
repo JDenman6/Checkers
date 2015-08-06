@@ -2,6 +2,9 @@ require_relative 'board'
 
 class Piece
 
+  RED_DELTAS = [[-1, -1], [-1, 1]]
+  BLACK_DELTAS = [[1, -1], [1, 1]]
+
   attr_accessor :pos, :color, :grid
 
   def initialize(pos, color, grid)
@@ -13,42 +16,33 @@ class Piece
     "#{self.color}"
   end
 
-  def side_forward(color)
-    (color == :r) ? +1 : -1
-  end
-
-  def left(pos)
-    row, col = pos
-    row += side_forward(self.color)
-    col += side_forward(self.color)
-    pos = [row, col]
-  end
-
-  def right(pos)
-    row, col = pos
-    row += side_forward(self.color)
-    col -= side_forward(self.color)
-    pos = [row, col]
-  end
-
   def slide_moves
     [left(self.pos) , right(self.pos)]
   end
 
+  def deltas
+    (self.color == :r) ? RED_DELTAS : BLACK_DELTAS
+  end
+
+  def slide_moves
+    possible_moves = []
+    row, col = self.pos
+    deltas.each do |delta|
+      row_delta, col_delta = delta
+      possible_moves << [row + row_delta, col + col_delta]
+    end
+
+    possible_moves
+  end
+
   def jump_moves
     possible_jumps = []
-    unless grid[left(self.pos)].nil?
-      if grid[left(self.pos)].color != self.color &&
-          grid[left(left(pos))].nil?
-        possible_jumps << left(left(pos))
-      end
+    row, col = self.pos
+    deltas.each do |delta|
+      row_delta, col_delta = delta
+      possible_jumps << [row + (2 * row_delta), col + (2 * col_delta)]
     end
-    unless grid[right(self.pos)].nil?
-      if grid[right(self.pos)].color != self.color &&
-          grid[right(right(pos))].nil?
-        possible_moves << right(right(pos))
-      end
-    end
+
     possible_jumps
   end
 
