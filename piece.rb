@@ -34,7 +34,7 @@ class Piece
   end
 
   def jump_moves
-
+    [left(left(pos)), right(right(pos))]
   end
 
 end
@@ -44,8 +44,10 @@ if __FILE__ == $PROGRAM_NAME
   red = Piece.new([0,2], :r)
   black = Piece.new([7,5], :b)
 
-  p "red - left, right"
-  p red.moves
-  p "black - left, right"
-  p black.moves
+  p red.jump_moves
+
+  # p "red - left, right"
+  # p red.moves
+  # p "black - left, right"
+  # p black.moves
 end
