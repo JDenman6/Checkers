@@ -29,7 +29,7 @@ class Piece
     pos = [row, col]
   end
 
-  def moves
+  def slide_moves
     [left , right]
   end
 

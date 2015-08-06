@@ -33,7 +33,7 @@ class Board
 
   def move(from_pos, to_pos)
     piece = self[from_pos]
-    if piece.moves.include?(to_pos) && on_board?(to_pos)
+    if piece.slide_moves.include?(to_pos) && on_board?(to_pos)
       slide_move(from_pos, to_pos)
     else
       raise "ERROR! in move"
