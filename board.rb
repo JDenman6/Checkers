@@ -19,6 +19,7 @@ class Board
      end
      print "\n"
     end
+    print "~~~~~~~~~~~~~~~~~~~~~~~~\n"
   end
 
   def [](pos)
@@ -33,7 +34,7 @@ class Board
 
   def move(from_pos, to_pos)
     if self[from_pos].nil?
-      raise "ERROR! Can't move nil piece."
+      raise "ERROR! No piece there."
     else
     piece = self[from_pos]
     end
@@ -68,6 +69,8 @@ class Board
       self[jumped_space(from_pos, to_pos)] = nil
       self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
       self[to_pos].pos = to_pos
+    else
+      raise "ERROR! Can't jump there."
     end
   end
 
@@ -97,13 +100,20 @@ if __FILE__ == $PROGRAM_NAME
 board = Board.new
 
 board.add_piece([2,4], :b)
-board.add_piece([3,5], :r)
+board.add_piece([4,2], :r)
+board.add_piece([2,2], :b)
+board.add_piece([4,6], :r)
+# board.add_piece([2,4], :b)
+# board.add_piece([3,5], :r)
+# board.add_piece([2,4], :b)
+# board.add_piece([3,5], :r)
 board.render
-  p "~~~~~~"
 
 
-  board.move([3,5], [1,3])
-  board.render
+
+
+  # board.move([3,5], [1,3])
+  # board.render
 
 
 
