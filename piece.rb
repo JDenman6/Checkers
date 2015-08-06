@@ -24,7 +24,7 @@ class Piece
       elsif jump_moves.include?(to_pos)
         jump_move(to_pos)
       else
-        raise "ERROR! can't slide there."
+        raise "ERROR! can't move there."
       end
     else
       raise "ERROR! in move"
@@ -43,11 +43,9 @@ class Piece
     nil
   end
 
-  def jump_move(from_pos, to_pos)
-    if self[to_pos].nil?
-      self[jumped_space(from_pos, to_pos)] = nil
-      self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
-      self[to_pos].pos = to_pos
+  def jump_move(to_pos)
+    if grid.on_board?(to_pos)
+      grid.move!(self.pos, to_pos)
     else
       raise "ERROR! Can't jump there."
     end
@@ -94,7 +92,7 @@ if __FILE__ == $PROGRAM_NAME
     board.add_piece([1,3], :b)
     board.render
 
-    board[[2,2]].move([1,1])
+    board[[2,2]].move([0,4])
 
     board.render
 
