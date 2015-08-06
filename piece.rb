@@ -29,6 +29,10 @@ class Piece
     pos = [row, col]
   end
 
+  def moves
+    [left , right]
+  end
+
 end
 
 
@@ -37,10 +41,7 @@ if __FILE__ == $PROGRAM_NAME
   black = Piece.new([7,5], :b)
 
   p "red - left, right"
-  p red.left
-  p red.right
+  p red.moves
   p "black - left, right"
-  p black.left
-  p black.right
-
+  p black.moves
 end
