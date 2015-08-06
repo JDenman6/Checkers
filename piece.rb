@@ -15,12 +15,6 @@ class Piece
     (color == :r) ? +1 : -1
   end
 
-  # def move(dir)
-  #   slide_move(dir) if slide_available?(dir)
-  #   jump_move(dir) if jump_available?(dir)
-  #   raise "You can't move there!"
-  # end
-
   def left
     row, col = self.pos
     row += side_forward(self.color)
