@@ -30,6 +30,21 @@ class Board
     print "~~~~~~~~~~~~~~~~~~~~~~~~\n"
   end
 
+  def dup
+    new_grid = Board.new
+    pieces = self.grid.flatten.compact
+
+    pieces.each do |piece|
+        new_grid.add_piece(piece.pos, piece.color)
+    end
+
+    new_grid
+  end
+
+  def add_piece(pos, color)
+    self[pos] = Piece.new(pos, color, self)
+  end
+
   def [](pos)
     x, y = pos
     grid[x][y]
@@ -43,10 +58,6 @@ class Board
   def move!(from_pos, to_pos)
     self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
     self[to_pos].pos = to_pos
-  end
-
-  def add_piece(pos, color)
-    self[pos] = Piece.new(pos, color, self)
   end
 
   def clear_space(pos)
@@ -69,8 +80,6 @@ board.add_piece([2,2], :b)
 board.add_piece([4,6], :r)
 board.render
 
-board[[2,2]].move([3,3])
-board.render
 
 
 

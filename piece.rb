@@ -31,7 +31,7 @@ class Piece
     nil
   end
 
-private
+# private
 
   def deltas
     return RED_DELTAS + BLACK_DELTAS if self.kinged
