@@ -31,6 +31,35 @@ class Board
     self.grid[x][y] = piece
   end
 
+  def move(from_pos, dir)
+    piece = self[from_pos]
+    if dir == :left
+      dir = piece.left
+    elsif dir == :right
+      dir = piece.right
+    end
+    if slide_available?(dir)
+      slide_move(from_pos, dir)
+    elsif jump_available?(dir)
+      jump_move(dir)
+    else
+      raise "You can't move there!"
+    end
+  end
+
+  def slide_move(from_pos, to_pos)
+    self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
+    self[to_pos].pos = to_pos
+  end
+
+  def slide_available?(dir)
+    true
+  end
+
+  def jump_available?(dir)
+    true
+  end
+
   def add_piece(pos, color)
     self[pos] = Piece.new(pos, color)
   end
@@ -45,6 +74,10 @@ if __FILE__ == $PROGRAM_NAME
   # board[[0,0]] = Piece.new([2,3], :black)
   board.add_piece([7,5], :b)
   board.render
+  p "~~~~~~"
+   board.move([7,5], :left)
+  board.render
+  p board[[3,4]].pos
 
 
 end
