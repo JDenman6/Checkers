@@ -45,17 +45,6 @@ class Board
     self[to_pos].pos = to_pos
   end
 
-  def jumped_space(from_pos, to_pos)
-    start_x, start_y = from_pos
-    end_x, end_y = to_pos
-
-    jumped_x = (start_x + end_x) / 2
-    jumped_y = (start_y + end_y) / 2
-
-    [jumped_x, jumped_y]
-  end
-
-
   def add_piece(pos, color)
     self[pos] = Piece.new(pos, color, self)
   end
@@ -78,9 +67,9 @@ board.add_piece([2,4], :b)
 board.add_piece([4,2], :r)
 board.add_piece([2,2], :b)
 board.add_piece([4,6], :r)
+board.render
 
-
-board.move([2,2], [3,3])
+board[[2,2]].move([3,3])
 board.render
 
 

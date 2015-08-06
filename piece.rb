@@ -5,11 +5,12 @@ class Piece
   RED_DELTAS = [[-1, -1], [-1, 1]]
   BLACK_DELTAS = [[1, -1], [1, 1]]
 
-  attr_accessor :pos, :color, :grid
+  attr_accessor :pos, :color, :grid, :king
 
   def initialize(pos, color, grid)
     @color, @pos, @grid = color, pos, grid
     self.grid
+    @king = false
   end
 
   def to_s
@@ -27,7 +28,7 @@ class Piece
         raise "ERROR! can't move there."
       end
     else
-      raise "ERROR! in move"
+      raise "ERROR! can't move off board."
     end
 
     nil
@@ -107,5 +108,6 @@ if __FILE__ == $PROGRAM_NAME
     board[[2,2]].move([0,4])
 
     board.render
+
 
 end
