@@ -5,12 +5,12 @@ class Piece
   RED_DELTAS = [[-1, -1], [-1, 1]]
   BLACK_DELTAS = [[1, -1], [1, 1]]
 
-  attr_accessor :pos, :color, :grid, :king
+  attr_accessor :pos, :color, :grid, :kinged
 
   def initialize(pos, color, grid)
     @color, @pos, @grid = color, pos, grid
     self.grid
-    @king = false
+    @kinged = false
   end
 
   def to_s
@@ -18,23 +18,27 @@ class Piece
   end
 
   def move(to_pos)
-
-    if grid.on_board?(to_pos)
-      if slide_moves.include?(to_pos)
-        slide_move(to_pos)
-      elsif jump_moves.include?(to_pos)
-        jump_move(to_pos)
-      else
-        raise "ERROR! can't move there."
-      end
+    if slide_moves.include?(to_pos)
+      move_slide(to_pos)
+    elsif jump_moves.include?(to_pos)
+      move_jump(to_pos)
     else
-      raise "ERROR! can't move off board."
+      raise "ERROR! can't move there."
     end
+
+    king_check(to_pos)
 
     nil
   end
 
-  def slide_move(to_pos)
+private
+
+  def deltas
+    return RED_DELTAS + BLACK_DELTAS if self.kinged
+    (self.color == :r) ? RED_DELTAS : BLACK_DELTAS
+  end
+
+  def move_slide(to_pos)
     if grid[to_pos].nil?
       grid.move!(self.pos,to_pos)
     else
@@ -42,30 +46,6 @@ class Piece
     end
 
     nil
-  end
-
-  def jump_move(to_pos)
-    from, to = self.pos, to_pos
-    if grid.on_board?(to_pos)
-      grid.move!(from, to)
-      clear_jumped_space(from, to)
-    else
-      raise "ERROR! Can't jump there."
-    end
-  end
-
-  def deltas
-    (self.color == :r) ? RED_DELTAS : BLACK_DELTAS
-  end
-
-  def clear_jumped_space(from_pos, to_pos)
-    start_x, start_y = from_pos
-    end_x, end_y = to_pos
-
-    jumped_x = ((start_x + end_x) / 2)
-    jumped_y = ((start_y + end_y) / 2)
-
-    grid.clear_space([jumped_x, jumped_y])
   end
 
   def slide_moves
@@ -81,6 +61,17 @@ class Piece
     possible_moves
   end
 
+
+  def move_jump(to_pos)
+    from, to = self.pos, to_pos
+    if grid.on_board?(to_pos)
+      grid.move!(from, to)
+      clear_jumped_space(from, to)
+    else
+      raise "ERROR! Can't jump there."
+    end
+  end
+
   def jump_moves
     possible_jumps = []
     row, col = self.pos
@@ -92,6 +83,20 @@ class Piece
     possible_jumps
   end
 
+  def clear_jumped_space(from_pos, to_pos)
+    start_x, start_y = from_pos
+    end_x, end_y = to_pos
+
+    jumped_x = ((start_x + end_x) / 2)
+    jumped_y = ((start_y + end_y) / 2)
+
+    grid.clear_space([jumped_x, jumped_y])
+  end
+
+  def king_check(pos)
+    row, col = pos
+    self.kinged = true if row == 0 || row == 7
+  end
 
 
 end
@@ -106,8 +111,9 @@ if __FILE__ == $PROGRAM_NAME
     board.render
 
     board[[2,2]].move([0,4])
-
     board.render
 
+    board[[0,4]].move([1,3])
+    board.render
 
 end
