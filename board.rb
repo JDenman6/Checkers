@@ -57,7 +57,7 @@ class Board
 
   def move!(from_pos, to_pos)
     self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
-    self[to_pos].pos = to_pos
+    self[to_pos].pos = to_pos unless self[to_pos].nil?
   end
 
   def clear_space(pos)
@@ -80,7 +80,11 @@ board.add_piece([2,2], :b)
 board.add_piece([4,6], :r)
 board.render
 
+board[[4,6]].perform_moves!([[3,5]])
+board.render
 
+board[[3,5]].perform_moves!([[1,3], [3,1], [5,3]])
+board.render
 
 
 end

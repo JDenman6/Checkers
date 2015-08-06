@@ -31,6 +31,20 @@ class Piece
     nil
   end
 
+  def perform_moves!(moves)
+    if moves.size == 1
+      move(moves.first)
+    else
+      queue = moves
+      until queue.empty?
+
+        move_jump(queue.shift)
+      end
+    end
+
+    nil
+  end
+
 # private
 
   def deltas
@@ -64,7 +78,7 @@ class Piece
 
   def move_jump(to_pos)
     from, to = self.pos, to_pos
-    if grid.on_board?(to_pos)
+    if grid.on_board?(to)
       grid.move!(from, to)
       clear_jumped_space(from, to)
     else
