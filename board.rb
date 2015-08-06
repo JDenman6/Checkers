@@ -8,6 +8,14 @@ class Board
     @grid = Array.new(GRID_SIZE) { Array.new(GRID_SIZE) }
   end
 
+  # def setup
+  #   grid.each_with_index do |row, row_idx|
+  #     row.each_with_index do |col, col_idx|
+  #       if row_idx.between?(0,2) &&
+  #     end
+  #   end
+  # end
+
   def render
     grid.each do |row|
      row.each do |square|
@@ -32,47 +40,47 @@ class Board
     self.grid[x][y] = piece
   end
 
-  def move(from_pos, to_pos)
-    if self[from_pos].nil?
-      raise "ERROR! No piece there."
-    else
-    piece = self[from_pos]
-    end
-    if on_board?(to_pos)
-      if piece.slide_moves.include?(to_pos)
-        slide_move(from_pos, to_pos)
-      elsif piece.jump_moves.include?(to_pos)
-        jump_move(from_pos, to_pos)
-      else
-        raise "ERROR! can't slide there."
-      end
-    else
-      raise "ERROR! in move"
-    end
-
-    nil
-  end
-
-  def slide_move(from_pos, to_pos)
-    if self[to_pos].nil?
-      self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
-      self[to_pos].pos = to_pos
-    else
-      Raise "ERROR! in slide move"
-    end
-
-    nil
-  end
-
-  def jump_move(from_pos, to_pos)
-    if self[to_pos].nil?
-      self[jumped_space(from_pos, to_pos)] = nil
-      self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
-      self[to_pos].pos = to_pos
-    else
-      raise "ERROR! Can't jump there."
-    end
-  end
+  # def move(from_pos, to_pos)
+  #   if self[from_pos].nil?
+  #     raise "ERROR! No piece there."
+  #   else
+  #     piece = self[from_pos]
+  #   end
+  #   if on_board?(to_pos)
+  #     if piece.slide_moves.include?(to_pos)
+  #       slide_move(from_pos, to_pos)
+  #     elsif piece.jump_moves.include?(to_pos)
+  #       jump_move(from_pos, to_pos)
+  #     else
+  #       raise "ERROR! can't slide there."
+  #     end
+  #   else
+  #     raise "ERROR! in move"
+  #   end
+  #
+  #   nil
+  # end
+  #
+  # def slide_move(from_pos, to_pos)
+  #   if self[to_pos].nil?
+  #     self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
+  #     self[to_pos].pos = to_pos
+  #   else
+  #     raise "ERROR! in slide move"
+  #   end
+  #
+  #   nil
+  # end
+  #
+  # def jump_move(from_pos, to_pos)
+  #   if self[to_pos].nil?
+  #     self[jumped_space(from_pos, to_pos)] = nil
+  #     self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
+  #     self[to_pos].pos = to_pos
+  #   else
+  #     raise "ERROR! Can't jump there."
+  #   end
+  # end
 
   def jumped_space(from_pos, to_pos)
     start_x, start_y = from_pos
@@ -103,17 +111,10 @@ board.add_piece([2,4], :b)
 board.add_piece([4,2], :r)
 board.add_piece([2,2], :b)
 board.add_piece([4,6], :r)
-# board.add_piece([2,4], :b)
-# board.add_piece([3,5], :r)
-# board.add_piece([2,4], :b)
-# board.add_piece([3,5], :r)
+
+
+board.move([2,2], [3,3])
 board.render
-
-
-
-
-  # board.move([3,5], [1,3])
-  # board.render
 
 
 

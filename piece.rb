@@ -16,8 +16,41 @@ class Piece
     "#{self.color}"
   end
 
-  def slide_moves
-    [left(self.pos) , right(self.pos)]
+  def move(to_pos)
+
+    if on_board?(to_pos)
+      if slide_moves.include?(to_pos)
+        slide_move(to_pos)
+      elsif jump_moves.include?(to_pos)
+        jump_move(to_pos)
+      else
+        raise "ERROR! can't slide there."
+      end
+    else
+      raise "ERROR! in move"
+    end
+
+    nil
+  end
+
+  def slide_move(to_pos)
+    if board[to_pos].nil?
+      board.move!(self.pos,to_pos)
+    else
+      raise "ERROR! in slide move"
+    end
+
+    nil
+  end
+
+  def jump_move(from_pos, to_pos)
+    if self[to_pos].nil?
+      self[jumped_space(from_pos, to_pos)] = nil
+      self[to_pos], self[from_pos] = self[from_pos], self[to_pos]
+      self[to_pos].pos = to_pos
+    else
+      raise "ERROR! Can't jump there."
+    end
   end
 
   def deltas
@@ -29,7 +62,9 @@ class Piece
     row, col = self.pos
     deltas.each do |delta|
       row_delta, col_delta = delta
-      possible_moves << [row + row_delta, col + col_delta]
+      move = [row + row_delta, col + col_delta]
+
+      possible_moves << move if self.grid[move].nil?
     end
 
     possible_moves
@@ -53,10 +88,10 @@ if __FILE__ == $PROGRAM_NAME
 
     board = Board.new
 
-    board.add_piece([0,2], :r)
+    board.add_piece([2,2], :r)
     board.add_piece([1,3], :b)
     board.render
 
-    p board[[0,2]].jump_moves
+    p board[[2,2]].slide_moves
 
 end
